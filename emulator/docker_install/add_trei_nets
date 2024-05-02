@@ -1,0 +1,16 @@
+#! /bin/sh
+docker network create --driver=bridge \
+    --subnet=192.168.1.0/24 \
+     trei-net1 
+
+docker network create --driver=bridge \
+    --subnet=192.168.2.0/24 \
+     trei-net2 
+
+docker network create --driver=bridge \
+    --subnet=192.168.3.0/24 \
+     trei-net3
+
+docker network create --driver=bridge \
+    --subnet=192.168.4.0/24 \
+     trei-net4  

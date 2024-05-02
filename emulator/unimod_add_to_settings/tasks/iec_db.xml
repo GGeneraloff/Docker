@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--IEC-104 configuration database-->
+<g:ethernet>
+  <g:asdu num="1">
+    <g:group num="1" type="13" sq="0" spont="1">
+      <g:obj link="287" addr="1" arc="1"/>
+      <g:obj link="288" addr="2" arc="1"/>
+    </g:group>
+    <g:group num="2" type="13" sq="0" spont="1">
+      <g:obj link="289" addr="3" arc="1"/>
+    </g:group>
+    <g:group num="4" type="11" sq="0" spont="1">
+      <g:obj link="297" addr="4" arc="1"/>
+    </g:group>
+    <g:group num="5" type="1" sq="0" spont="1">
+      <g:obj link="2010" addr="5" arc="1"/>
+    </g:group>
+  </g:asdu>
+</g:ethernet>

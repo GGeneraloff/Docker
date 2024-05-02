@@ -1,0 +1,34 @@
+#! /bin/bash
+
+CONT_NAME=trei_emul_3
+
+PARENT_DIR=/home/gazauto/work/emulator
+PARENT_WORK_DIR=$PARENT_DIR/trei_emul_instances
+WORK_DIR=$PARENT_WORK_DIR/$CONT_NAME
+
+if [ ! -e $WORK_DIR ]; then
+  mkdir $WORK_DIR
+  mkdir $WORK_DIR/tasks
+  cp -Rp unimod_add_to_settings/* $WORK_DIR/
+  sync
+fi
+
+echo Stop \'$CONT_NAME\'...
+docker stop $CONT_NAME
+echo Remove \'$CONT_NAME\'...
+docker rm $CONT_NAME
+echo Start \'$CONT_NAME\'...
+docker run --privileged \
+	--mount type=bind,source=$WORK_DIR,target=/unimod_settings \
+	--cpuset-cpus="0-3" \
+	-p 5013:5000/udp \
+	-p 6013:6000/tcp \
+	--network trei-net1 --ip=192.168.3.12 \
+	--name $CONT_NAME \
+	-itd trei_emul
+
+docker network connect trei-net2 --ip=192.168.8.12 $CONT_NAME
+docker network connect trei-net3 --ip=192.168.4.12 $CONT_NAME
+docker network connect trei-net4 --ip=192.168.9.12 $CONT_NAME
+echo Start \'$CONT_NAME\'. Done
+# 

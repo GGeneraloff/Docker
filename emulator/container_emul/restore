@@ -1,0 +1,11 @@
+#! /bin/bash
+
+ARC_NAME=trei_emul_v1.5
+IMG_NAME=trei_emul
+
+gunzip -c ./${ARC_NAME}.tar.gz > ./${ARC_NAME}.tar
+docker load -i ./${ARC_NAME}.tar
+rm ./${ARC_NAME}.tar
+
+docker tag ${ARC_NAME}:latest ${IMG_NAME}:latest
+docker rmi ${ARC_NAME}
