@@ -7,8 +7,8 @@ PARENT_WORK_DIR=$PARENT_DIR/trei_emul_instances
 WORK_DIR=$PARENT_WORK_DIR/$CONT_NAME
 
 if [ ! -e $WORK_DIR ]; then
-  mkdir $WORK_DIR
-  mkdir $WORK_DIR/tasks
+  mkdir -p $WORK_DIR
+  mkdir -p $WORK_DIR/tasks
   cp -Rp unimod_add_to_settings/* $WORK_DIR/
   sync
 fi
@@ -20,7 +20,7 @@ docker rm $CONT_NAME
 echo Start \'$CONT_NAME\'...
 docker run --privileged \
 	--mount type=bind,source=$WORK_DIR,target=/unimod_settings \
-	--cpuset-cpus="0-3" \
+	--cpuset-cpus="0-1" \
 	-p 5013:5000/udp \
 	-p 6013:6000/tcp \
 	--network trei-net1 --ip=192.168.1.12 \
