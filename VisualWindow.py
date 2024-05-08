@@ -7,6 +7,7 @@ import os
 import stat
 import re
 from plc_visu import Plc_visu
+from function import Func
 
 class Visuality:
     
@@ -15,18 +16,29 @@ class Visuality:
         self.window = Tk()
         self.window.title("Настройка эмулятора")
         self.window.geometry("500x300")
+
+        f=Func()
+        f.configread()
+        print(f.ip)
+
         # check = (self.window.register(self.is_valid), "%P")
         
-        self.ip_1=tk.StringVar(value='192.168.1.10')
-        self.ip_2=tk.StringVar(value='192.168.1.10')
-        self.ip_3=tk.StringVar(value='192.168.1.10')
-        self.ip_4=tk.StringVar(value='192.168.1.10')
+        self.ip_1=tk.StringVar()
+        self.ip_2=tk.StringVar()
+        self.ip_3=tk.StringVar()
+        self.ip_4=tk.StringVar()
 
-        self.port=tk.StringVar(value='0000')
+        self.port=tk.StringVar()
+
+        self.ip=f.ip
         
         plc_list=[]
         num=1
-        for i in range (num):
+        for i in range (len(self.ip)):
+            self.ip_1.set(self.ip[i][0])
+            self.ip_2.set(self.ip[i][1])
+            self.ip_3.set(self.ip[i][2])
+            self.ip_4.set(self.ip[i][3])
             plc=Plc_visu(self.ip_1,self.ip_2,self.ip_3,self.ip_4,self.port,i)
             plc_list.append(plc)
         for i in range (num):
