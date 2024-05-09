@@ -1,12 +1,12 @@
 import os
 
-
-
 class Func:
     ip=[]
     port=[]
 
     def configread(self):
+        self.ip=[]
+        self.port=[]
         file_path = os.path.realpath('Config.txt')
         if os.path.exists(file_path):
             with open(file_path, "r", encoding="utf-8") as file:
@@ -14,22 +14,13 @@ class Func:
 
         i = 0
         while i < len(message) - 1:
-            if message[i] == '# PLC1\n':
-                plc_1=[]
-                i += 1
-                while message[i] != '# PLC2\n':
-                    plc_1.append(message[i])
-                    i += 1
-                self.ip.append(plc_1)
-            # elif message[i] == 'Папка, куда будут выложены прошивки:\n':
-            #     i += 1
-            #     while message[i] != 'Папка, куда будут перекладываться старые прошивки с сервера:\n':
-            #         self.folder.append(message[i])
-            #         i += 1
-            
-            # elif message[i] == 'Шаблон текста для формирования отчетного сообщения:\n':
-            #     i += 1
-            #     self.txt.append(message[i])
+            if '# PLC' in message[i]:
+                plc=[]         
+                for j in range (4):
+                    i+=1 
+                    plc.append(message[i])     
+                self.ip.append(plc)
+                i+=1
             else:
                 break
 
@@ -39,15 +30,9 @@ class Func:
             for j in range (len(self.ip[0])):
                 self.ip[i][j]=self.ip[i][j].strip()
 
-        
+        for i in range (len(self.ip)):
+            ip_port=self.ip[i][0].split(":")
+            self.ip[i][0]=ip_port[0]
+            self.port.append(ip_port[1])
 
-        # for x in range(len(self.folder)):
-        #     self.folder[x] = self.folder[x].strip()
-        # for x in range(len(self.expansion)):
-        #     self.expansion[x] = self.expansion[x].strip()
-        # for x in range(len(self.not_used_folder)):
-        #     self.not_used_folder[x] = self.not_used_folder[x].strip()
-        # for x in range(len(self.shablon)):
-        #     self.shablon[x] = self.shablon[x].strip()
-        # for x in range(len(self.shablon_joint)):
-        #     self.shablon_joint[x] = self.shablon_joint[x].strip()
+        print(self.port)

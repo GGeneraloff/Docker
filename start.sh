@@ -6,8 +6,7 @@ sudo ./del_trei_nets
 
 cd ~/work/emulator/docker_install/
 sudo chmod +x add_trei_nets
- $1 $2 $3 $4
-sudo ./add_trei_nets
+sudo ./add_trei_nets $1 $2 $3 $4
 cp -nr ~/Docker/emulator/example_config_plc/default/run_emul_1 ~/work/emulator
 cp -nr ~/Docker/emulator/example_config_plc/default/run_emul_2 ~/work/emulator
 cp -nr ~/Docker/emulator/example_config_plc/default/run_emul_3 ~/work/emulator

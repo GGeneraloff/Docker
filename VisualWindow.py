@@ -9,64 +9,47 @@ import re
 from plc_visu import Plc_visu
 from function import Func
 
-class Visuality:
-    
+class Visuality:    
 
     def workwindow(self):
         self.window = Tk()
         self.window.title("Настройка эмулятора")
-        self.window.geometry("500x300")
-
+        self.window.geometry("1050x300")
         f=Func()
         f.configread()
-        print(f.ip)
+        btn_bar=tk.Frame(self.window)
+        btn_bar.grid(column=0,row=0,sticky=W)
+        self.plc_frame=tk.Frame(self.window)
+        self.plc_frame.grid(column=0,row=2)
 
         # check = (self.window.register(self.is_valid), "%P")
-        
-        self.ip_1=tk.StringVar()
-        self.ip_2=tk.StringVar()
-        self.ip_3=tk.StringVar()
-        self.ip_4=tk.StringVar()
-
-        self.port=tk.StringVar()
 
         self.ip=f.ip
-        
-        plc_list=[]
-        num=1
+        self.port=f.port
+        self.plc_list=[]
+
+        self.start_check()
+
+        btn_start= Button(btn_bar,width=15, text="Запуск", command=self.start)
+        btn_start.grid(column=0,row=0)
+
+        if not self.check:
+            btn_first_satrt= Button(btn_bar,width=15, text="Первый запуск", command=self.first_start)
+            btn_first_satrt.grid(column=1,row=0)
+
+        btn_test= Button(btn_bar,width=15, text="Считать",command=self.configread)
+        btn_test.grid(column=2,row=0)
+
         for i in range (len(self.ip)):
-            self.ip_1.set(self.ip[i][0])
-            self.ip_2.set(self.ip[i][1])
-            self.ip_3.set(self.ip[i][2])
-            self.ip_4.set(self.ip[i][3])
-            plc=Plc_visu(self.ip_1,self.ip_2,self.ip_3,self.ip_4,self.port,i)
-            plc_list.append(plc)
-        for i in range (num):
-            plc_list[i].show_visu()
-        # plc_2=Plc_visu(self.ip_1,self.ip_2,self.ip_3,self.ip_4,self.port,1)
-        # plc_2.show_visu()
-
-
-        btn_first_satrt= Button(self.window,width=15, text="Первый запуск", command=self.first_start)
-        btn_first_satrt.grid(column=1,row=0)
-        # проверить скачан ли докер, создать дериктории(если их нет),загружаем докер контейнера, переход к определению ip
-
-        btn_test= Button(self.window,width=15, text="Test",command=self.remove)
-        btn_test.grid(column=2,row=0,columnspan=3)
-
-        btn_start= Button(self.window,width=15, text="Запуск", command=self.start)
-        btn_start.grid(column=5,row=0,columnspan=2)
-
-        
- 
+            plc=Plc_visu(self.plc_frame,self.ip[i][0],self.ip[i][1],self.ip[i][2],self.ip[i][3],self.port[i],i)
+            self.plc_list.append(plc)
+        for i in range (len(self.ip)):
+            self.plc_list[i].show_visu()
         
         # error_label = ttk.Label(foreground="red", textvariable=errmsg, wraplength=250)
         # error_label.grid(column=1,row=5)
-
         
         # проверка на наличие докера и тд, переход к определению ip
-
-
 
         self.window.mainloop()
 
@@ -84,10 +67,27 @@ class Visuality:
         subprocess.run([start,self.ip_1.get(),self.ip_2.get(),self.ip_3.get(),self.ip_4.get()])
         # messagebox.showinfo("Настройка окружения","Настройка выполнена")
 
-    def remove(self):
-        st = os.stat('/home/george/Docker/test.sh')
-        os.chmod('/home/george/Docker/test.sh', st.st_mode | stat.S_IEXEC)# даем права
-        subprocess.call(['/home/george/Docker/test.sh'])
+    def start_check(self):
+        check = os.path.expanduser( '~/work' )
+        subprocess.run( ["dpkg -s docker"])
+        return check
+        # st = os.stat(check)
+        # os.chmod(check, st.st_mode | stat.S_IEXEC)# даем права
+        # subprocess.call([check])
+
+    def configread(self):
+        f=Func()
+        f.configread()
+        self.ip=f.ip
+        self.port=f.port
+        for i in range (len(self.ip)):
+            self.plc_list[i].ip_1.set(self.ip[i][0])
+            self.plc_list[i].ip_2.set(self.ip[i][1])
+            self.plc_list[i].ip_3.set(self.ip[i][2])
+            self.plc_list[i].ip_4.set(self.ip[i][3])
+            self.plc_list[i].port.set(self.port[i])
+        
+
     
     # def is_valid(self,newval):
     #     result=  re.match("^\+{0,1}\d{0,11}$", newval) is not None

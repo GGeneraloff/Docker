@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 sudo apt-get install -y docker*
 cd ~
 mkdir -p work
