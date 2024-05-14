@@ -6,9 +6,14 @@ PARENT_DIR=~/work/emulator
 PARENT_WORK_DIR=$PARENT_DIR/trei_emul_instances
 WORK_DIR=$PARENT_WORK_DIR/$CONT_NAME
 
-ip=$1
-ip=${ip::-1}
-ip+='10'
+ip1=$1
+ip1=${ip1::-3}
+ip2=$2
+ip2=${ip2::-3}
+ip3=$3
+ip3=${ip3::-3}
+ip4=$4
+ip4=${ip4::-3}
 
 if [ ! -e $WORK_DIR ]; then
   mkdir -p $WORK_DIR
@@ -27,11 +32,11 @@ docker run --privileged \
 	--cpuset-cpus="0-1" \
 	-p 5011:5000/udp \
 	-p 6011:6000/tcp \
-	--network trei-net1 --ip=$ip \
+	--network trei-net1 --ip=$ip1 \
 	--name $CONT_NAME \
 	-itd trei_emul
 
-docker network connect trei-net2 --ip=192.168.2.10 $CONT_NAME
-docker network connect trei-net3 --ip=192.168.3.10 $CONT_NAME
-docker network connect trei-net4 --ip=192.168.4.10 $CONT_NAME
+docker network connect trei-net2 --ip=$ip2 $CONT_NAME
+docker network connect trei-net3 --ip=$ip3 $CONT_NAME
+docker network connect trei-net4 --ip=$ip4 $CONT_NAME
 echo Start \'$CONT_NAME\'. Done

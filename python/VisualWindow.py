@@ -6,8 +6,8 @@ import subprocess #для выполнения скриплов
 import os
 import stat
 import re
-from plc_visu import Plc_visu
-from function import Func
+from python.plc_visu import Plc_visu
+from python.function import Func
 
 class Visuality:    
 
@@ -28,14 +28,17 @@ class Visuality:
         self.port=f.port
         self.plc_list=[]
 
-        self.start_check()
+        # self.start_check()
 
-        btn_start= Button(btn_bar,width=15, text="Запуск", command=self.start)
-        btn_start.grid(column=0,row=0)
+        self.doc_text=tk.StringVar()
+        self.doc_text.set('Start')
 
-        if not self.check:
-            btn_first_satrt= Button(btn_bar,width=15, text="Первый запуск", command=self.first_start)
-            btn_first_satrt.grid(column=1,row=0)
+        btn_doc= Button(btn_bar,width=15, textvariable=self.doc_text, command=self.doc_fun)
+        btn_doc.grid(column=0,row=0)
+
+        if not self.start_check():
+            self.btn_first_satrt= Button(btn_bar,width=15, text="Первый запуск", command=self.first_start)
+            self.btn_first_satrt.grid(column=1,row=0)
 
         btn_test= Button(btn_bar,width=15, text="Считать",command=self.configread)
         btn_test.grid(column=2,row=0)
@@ -54,22 +57,39 @@ class Visuality:
         self.window.mainloop()
 
     def first_start(self):
-        first_start = os.path.expanduser('~/Docker/first_start.sh')
+        first_start = os.path.expanduser('~/Docker/bash/first_start.sh')
         st = os.stat(first_start)
         os.chmod(first_start, st.st_mode | stat.S_IEXEC)# даем права
         subprocess.call([first_start])
+        self.btn_first_satrt.destroy()
         messagebox.showinfo("Первый запуск","Первый запуск завершен")
 
-    def start(self):
-        start = os.path.expanduser( '~/Docker/start.sh' )
-        st = os.stat(start)
-        os.chmod(start, st.st_mode | stat.S_IEXEC)# даем права
-        subprocess.run([start,self.ip_1.get(),self.ip_2.get(),self.ip_3.get(),self.ip_4.get()])
-        # messagebox.showinfo("Настройка окружения","Настройка выполнена")
+    def doc_fun(self):
+        start = os.path.expanduser( '~/Docker/bash/start.sh' )
+        st_1 = os.stat(start)
+        os.chmod(start, st_1.st_mode | stat.S_IEXEC)# даем права
+        stop = os.path.expanduser( '~/Docker/bash/stop.sh' )
+        st_2 = os.stat(stop)
+        os.chmod(stop, st_2.st_mode | stat.S_IEXEC)# даем права
+        try:
+            print(self.plc_list[1].ip_1.get())
+            
+            if self.doc_text.get()=="Start":
+                self.doc_text.set('Stop')
+                subprocess.run([start,self.plc_list[0].ip_1.get(),self.plc_list[0].ip_2.get(),self.plc_list[0].ip_3.get(),self.plc_list[0].ip_4.get()])
+            else:
+                self.doc_text.set('Start')
+                subprocess.run([stop])
+        except:
+            messagebox.showerror('')
+        
+            # messagebox.showinfo("Настройка окружения","Настройка выполнена")
 
     def start_check(self):
-        check = os.path.expanduser( '~/work' )
-        subprocess.run( ["dpkg -s docker"])
+        work= os.path.expanduser( '~/work' )
+        check=os.path.isdir(work)
+        print(check)
+        # subprocess.run( ["dpkg -s docker"])
         return check
         # st = os.stat(check)
         # os.chmod(check, st.st_mode | stat.S_IEXEC)# даем права
@@ -96,4 +116,3 @@ class Visuality:
     #     else:
     #         errmsg.set("")
     #     return result
-

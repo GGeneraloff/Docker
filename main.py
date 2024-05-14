@@ -1,4 +1,4 @@
-from VisualWindow import Visuality
+from python.VisualWindow import Visuality
 
 if __name__ == "__main__":
     v = Visuality()
