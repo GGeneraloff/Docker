@@ -54,7 +54,7 @@ class Visuality:
 
     def first_start(self):
         try:
-            first_start = os.path.expanduser('~/Docker/bash/first_start.sh')
+            first_start = os.path.expanduser('~/emulator/bash/first_start.sh')
             st = os.stat(first_start)
             os.chmod(first_start, st.st_mode | stat.S_IEXEC)# даем права
             subprocess.call([first_start])
@@ -65,16 +65,16 @@ class Visuality:
 
     def doc_fun(self):
         try:
-            start = os.path.expanduser( '~/Docker/bash/start.sh' )
+            start = os.path.expanduser( '~/emulator/bash/start.sh' )
             st_1 = os.stat(start)
             os.chmod(start, st_1.st_mode | stat.S_IEXEC)# даем права
-            del_nets = os.path.expanduser( '~/Docker/bash/del_nets.sh' )
+            del_nets = os.path.expanduser( '~/emulator/bash/del_nets.sh' )
             st_2 = os.stat(del_nets)
             os.chmod(del_nets, st_2.st_mode | stat.S_IEXEC)# даем права
-            run_emul = os.path.expanduser( '~/Docker/bash/run_emul.sh' )
+            run_emul = os.path.expanduser( '~/emulator/bash/run_emul.sh' )
             st_1 = os.stat(run_emul)
             os.chmod(run_emul, st_1.st_mode | stat.S_IEXEC)# даем права
-            stop_emul = os.path.expanduser( '~/Docker/bash/stop_emul.sh' )
+            stop_emul = os.path.expanduser( '~/emulator/bash/stop_emul.sh' )
             st_1 = os.stat(stop_emul)
             os.chmod(stop_emul, st_1.st_mode | stat.S_IEXEC)# даем права
                  
