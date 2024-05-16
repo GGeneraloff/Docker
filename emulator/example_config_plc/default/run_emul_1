@@ -16,6 +16,7 @@ ip4=$4
 ip4=${ip4::-3}
 udp=$5
 tcp=$6
+cpu=$8
 
 if [ ! -e $WORK_DIR ]; then
   mkdir  $WORK_DIR
@@ -31,7 +32,7 @@ docker rm $CONT_NAME
 echo Start \'$CONT_NAME\'...
 docker run --privileged \
 	--mount type=bind,source=$WORK_DIR,target=/unimod_settings \
-	--cpuset-cpus="0-1" \
+	--cpuset-cpus="0-$cpu" \
 	-p $udp:5000/udp \
 	-p $tcp:6000/tcp \
 	--network trei-net1 --ip=$ip1 \
