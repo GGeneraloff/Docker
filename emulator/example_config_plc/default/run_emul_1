@@ -2,7 +2,7 @@
 
 CONT_NAME=trei_emul_$7
 
-PARENT_DIR=~/work/emulator
+PARENT_DIR=/home/gazauto/work/emulator
 PARENT_WORK_DIR=$PARENT_DIR/trei_emul_instances
 WORK_DIR=$PARENT_WORK_DIR/$CONT_NAME
 

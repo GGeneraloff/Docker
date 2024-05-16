@@ -1,11 +1,9 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import ttk
 from tkinter import messagebox 
 import subprocess #для выполнения скриплов 
 import os
 import stat
-import re
 from python.plc_visu import Plc_visu
 from python.function import Func
 
@@ -22,14 +20,10 @@ class Visuality:
         self.plc_frame=tk.Frame(self.window)
         self.plc_frame.grid(column=0,row=2)
 
-        # check = (self.window.register(self.is_valid), "%P")
-
         self.ip=f.ip
         self.udp=f.udp
         self.tcp=f.tcp
         self.plc_list=[]
-
-        # self.start_check()
 
         self.doc_text=tk.StringVar()
         self.doc_text.set('Start')
@@ -49,11 +43,6 @@ class Visuality:
             self.plc_list.append(plc)
         for i in range (len(self.ip)):
             self.plc_list[i].show_visu()
-        
-        # error_label = ttk.Label(foreground="red", textvariable=errmsg, wraplength=250)
-        # error_label.grid(column=1,row=5)
-        
-        # проверка на наличие докера и тд, переход к определению ip
 
         self.window.mainloop()
 
@@ -138,12 +127,3 @@ class Visuality:
                 self.plc_list[i].tcp.set(self.tcp[i])
         except:
             messagebox.showerror('Ошибка','Ошибка')
-
-    
-    # def is_valid(self,newval):
-    #     result=  re.match("^\+{0,1}\d{0,11}$", newval) is not None
-    #     if not result and len(newval) <= 12:
-    #         errmsg.set("Номер телефона должен быть в формате +xxxxxxxxxxx, где x представляет цифру")
-    #     else:
-    #         errmsg.set("")
-    #     return result
