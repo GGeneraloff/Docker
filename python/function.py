@@ -2,12 +2,15 @@ import os
 
 class Func:
     ip=[]
-    port=[]
+    udp=[]
+    tcp=[]
 
     def configread(self):
         self.ip=[]
-        self.port=[]
+        self.udp=[]
+        self.tcp=[]
         file_path = os.path.realpath('Config.txt')
+
         if os.path.exists(file_path):
             with open(file_path, "r", encoding="utf-8") as file:
                 message = file.readlines()
@@ -25,14 +28,14 @@ class Func:
                 break
 
         # Удаление специальных символов типа \n из списков
-
         for i in range (len(self.ip)):
             for j in range (len(self.ip[0])):
                 self.ip[i][j]=self.ip[i][j].strip()
-
+        
         for i in range (len(self.ip)):
-            ip_port=self.ip[i][0].split(":")
+            ip_port=self.ip[i][0].split(" ")
             self.ip[i][0]=ip_port[0]
-            self.port.append(ip_port[1])
-
-        print(self.port)
+            upd=ip_port[1].split(':')
+            self.udp.append(upd[1])
+            tcp=ip_port[2].split(':')
+            self.tcp.append(tcp[1])

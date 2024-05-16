@@ -1,6 +1,6 @@
 #! /bin/bash
 
-CONT_NAME=trei_emul_1
+CONT_NAME=trei_emul_$7
 
 PARENT_DIR=~/work/emulator
 PARENT_WORK_DIR=$PARENT_DIR/trei_emul_instances
@@ -14,10 +14,12 @@ ip3=$3
 ip3=${ip3::-3}
 ip4=$4
 ip4=${ip4::-3}
+udp=$5
+tcp=$6
 
 if [ ! -e $WORK_DIR ]; then
-  mkdir -p $WORK_DIR
-  mkdir -p $WORK_DIR/tasks
+  mkdir  $WORK_DIR
+  mkdir  $WORK_DIR/tasks
   cp -Rp unimod_add_to_settings/* $WORK_DIR/
   sync
 fi
@@ -30,8 +32,8 @@ echo Start \'$CONT_NAME\'...
 docker run --privileged \
 	--mount type=bind,source=$WORK_DIR,target=/unimod_settings \
 	--cpuset-cpus="0-1" \
-	-p 5011:5000/udp \
-	-p 6011:6000/tcp \
+	-p $udp:5000/udp \
+	-p $tcp:6000/tcp \
 	--network trei-net1 --ip=$ip1 \
 	--name $CONT_NAME \
 	-itd trei_emul

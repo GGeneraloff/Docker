@@ -3,7 +3,7 @@ from tkinter import ttk
 import tkinter as tk
 
 class Plc_visu:
-    def __init__(self,parent,ip_1,ip_2,ip_3,ip_4,port,n):
+    def __init__(self,parent,ip_1,ip_2,ip_3,ip_4,udp,tcp,n):
         self.ip_1=tk.StringVar()
         self.ip_1.set(ip_1)
         self.ip_2=tk.StringVar()
@@ -12,8 +12,10 @@ class Plc_visu:
         self.ip_3.set(ip_3)
         self.ip_4=tk.StringVar()
         self.ip_4.set(ip_4)
-        self.port=tk.StringVar()
-        self.port.set(port)
+        self.udp=tk.StringVar()
+        self.udp.set(udp)
+        self.tcp=tk.StringVar()
+        self.tcp.set(tcp)
         self.n=n
         self.parent=parent
 
@@ -28,8 +30,10 @@ class Plc_visu:
         ip_3_label.grid(column=n,row=3,padx=5)
         ip_4_label=ttk.Label(self.parent,text="IP 4")
         ip_4_label.grid(column=n,row=4,padx=5)
-        port_label=ttk.Label(self.parent,text="Port")
-        port_label.grid(column=n+2,row=1,padx=10)
+        udp_label=ttk.Label(self.parent,text="UDP")
+        udp_label.grid(column=n+2,row=1,padx=10)
+        tcp_label=ttk.Label(self.parent,text="TCP")
+        tcp_label.grid(column=n+2,row=2,padx=10)
 
         ip_1_entry=ttk.Entry(self.parent,textvariable=self.ip_1, width=14)
         ip_1_entry.grid(column=n+1,row=1,pady=15) 
@@ -39,8 +43,10 @@ class Plc_visu:
         ip_3_entry.grid(column=n+1,row=3,pady=15)
         ip_4_entry=ttk.Entry(self.parent,textvariable=self.ip_4, width=14)
         ip_4_entry.grid(column=n+1,row=4,pady=15)
-        port_entry=ttk.Entry(self.parent,textvariable=self.port, width=4)
-        port_entry.grid(column=n+3,row=1, padx=10)
+        udp_entry=ttk.Entry(self.parent,textvariable=self.udp, width=4)
+        udp_entry.grid(column=n+3,row=1, padx=10)
+        tcp_entry=ttk.Entry(self.parent,textvariable=self.tcp, width=4)
+        tcp_entry.grid(column=n+3,row=2, padx=10)
 
         separator = ttk.Separator(self.parent, orient='vertical')
         separator.grid(column=n+4,row=1,rowspan=4,sticky='ns')
