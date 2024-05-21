@@ -28,11 +28,12 @@ class Visuality:
         self.doc_text=tk.StringVar()
         self.doc_text.set('Start')
 
-        self.cpu=tk.StringVar(value='1')
-        cpu_label=Label(btn_bar,text='Количество ядер:')
-        cpu_label.grid(column=3,row=0)
-        cpu_entry=Entry(btn_bar,textvariable=self.cpu,width=2)
-        cpu_entry.grid(column=4,row=0)
+        self.cpu=os.cpu_count()-1
+        print(self.cpu)
+        # cpu_label=Label(btn_bar,text='Количество ядер:')
+        # cpu_label.grid(column=3,row=0)
+        # cpu_entry=Entry(btn_bar,textvariable=self.cpu,width=2)
+        # cpu_entry.grid(column=4,row=0)
 
         btn_doc= Button(btn_bar,width=15, textvariable=self.doc_text, command=self.doc_fun)
         btn_doc.grid(column=0,row=0)
@@ -100,7 +101,7 @@ class Visuality:
                 subprocess.run([start,ip[0],ip[1],ip[2],ip[3]])
                 for i in range (len(self.plc_list)):
                         n=i+1
-                        subprocess.run([run_emul,self.plc_list[i].ip_1.get(),self.plc_list[i].ip_2.get(),self.plc_list[i].ip_3.get(),self.plc_list[i].ip_4.get(),self.plc_list[i].udp.get(),self.plc_list[i].tcp.get(),str(n),self.cpu.get()])
+                        subprocess.run([run_emul,self.plc_list[i].ip_1.get(),self.plc_list[i].ip_2.get(),self.plc_list[i].ip_3.get(),self.plc_list[i].ip_4.get(),self.plc_list[i].udp.get(),self.plc_list[i].tcp.get(),str(n),str(self.cpu)])
             else:
                 self.doc_text.set('Start')
                 for i in range (len(self.plc_list)):
